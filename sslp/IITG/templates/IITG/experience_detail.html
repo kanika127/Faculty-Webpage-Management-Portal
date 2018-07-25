@@ -1,0 +1,82 @@
+{% extends 'IITG/base.html' %}
+{% block title %}IITG: {{ professor }}{% endblock %}
+{% block professors_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid experiences-container">
+
+    <div class="row">
+
+        <!-- Left professor Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'IITG:experience_detail' professor.id %}">
+                        {% if professor.pro_pic %}
+                            <img src="{{ professor.pro_pic.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h1>{{ professor.user }} </h1>
+                    <h1><small>{{ professor.designation }}</small></h1>
+                    <h2>{{ professor.Department }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right experience Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'IITG:experience_detail' professor.id %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'IITG:create_experience' professor.id %}">Add another Professional Experience</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Professional Experiences</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Professional Experience</th>
+                            <th>Institution</th>
+                            <th>Year</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for experience in professor.experience_set.all %}
+                            <tr>
+                                <td>{{ experience.Detail }}</td>
+                                <td>{{ experience.Institution }}</td>
+                                <td>{{ experience.start_Year }}-{{ experience.end_Year }}
+                                <td>
+                                    <form action="{% url 'IITG:delete_experience' professor.id experience.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="experience_id" value="{{ experience.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

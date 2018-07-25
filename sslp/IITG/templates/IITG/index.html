@@ -1,0 +1,131 @@
+{% extends 'IITG/base.html' %}
+{% block professors_active %}active{% endblock %}
+
+{% block body %}
+<div class="professors-container container-fluid">
+
+    <!-- professors -->
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>{{ user.username }}</h3>
+        </div>
+        {% if professors %}
+            {% for professor in professors %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <a href="{% url 'IITG:prof_detail' professor.id %}">
+                            <img src="{{ professor.pro_pic.url }}" class="img-responsive">
+                        </a>
+                        <div class="caption">
+                            <h4>{{ professor.designation }}</h4>
+                            <h5>{{ professor.Department }}</h5>
+
+                            <!-- Update Profile -->
+                            <a href="{% url 'IITG:prof_update' professor.pk %}" class="btn btn-primary btn-sm" role="button">Edit Profile</a>
+
+                        </div>
+                    </div>
+                </div>
+
+        <!-- Right cou</e Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- View Courses -->
+                    <a href="{% url 'IITG:course_detail' professor.id %}" class="btn btn-primary btn-sm" role="button">Teaching</a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- View Education -->
+                    <a href="{% url 'IITG:education_detail' professor.id %}" class="btn btn-primary btn-sm" role="button">Education</a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- View Professional Experience -->
+                    <a href="{% url 'IITG:experience_detail' professor.id %}" class="btn btn-primary btn-sm" role="button">Professional Experience</a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- View Projects -->
+                    <a href="{% url 'IITG:project_detail' professor.id %}" class="btn btn-primary btn-sm" role="button">Projects</a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- View Publication -->
+                    <a href="{% url 'IITG:publication_detail' professor.id %}" class="btn btn-primary btn-sm" role="button">Publications</a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- View Recognition -->
+                    <a href="{% url 'IITG:recognition_detail' professor.id %}" class="btn btn-primary btn-sm" role="button">Recognition</a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- View Student -->
+                    <a href="{% url 'IITG:student_detail' professor.id %}" class="btn btn-primary btn-sm" role="button">Student</a>
+                </div>
+            </div>
+
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% else %}
+            <div class="col-sm-12">
+                <br>
+                <a href="{% url 'IITG:create_professor' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add details
+                    </button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- If user searches and there are courses -->
+    {% if courses %}
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>courses</h3>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Course Name</th>
+                                    <th>Professor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in courses %}
+                                    <tr>
+                                        <td>{{ course.name }}</td>
+                                        <td>{{ course.professor.user }}</td>
+                                        <td>
+                                            <a href="{% url 'IITG:course_detail' course.professor.id %}">
+                                                <img src="{{ course.professor.pro_pic.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
+                                            </a>
+                                            <a href="{% url 'IITG:course_detail' course.professor.id %}">{{ course.professor.user }}</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

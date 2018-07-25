@@ -1,0 +1,62 @@
+{% extends 'IITG/base.html' %}
+{% block title %}Add a new Publication{% endblock %}
+{% block professors_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Left professor Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                        <a href="{% url 'IITG:publication_detail' professor.id %}">
+                            {% if professor.pro_pic %}
+                                <img src="{{ professor.pro_pic.url }}" class="img-responsive">
+                            {% else %}
+                                <h3>No image to display</h3>
+                            {% endif %}
+                        </a>
+                    <h1>{{ professor.user }} </h1>
+                    <h1><small>{{ professor.designation }}</small></h1>
+                    <h2>{{ professor.Department }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right publication Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation"><a href="{% url 'IITG:publication_detail' professor.id %}">View All</a></li>
+                <li role="presentation" class="active"><a href="{% url 'IITG:create_publication' professor.id %}">Add a new Publication</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Add a new Publication</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="professor" value="{{ professor }}">
+                        {% include 'IITG/form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

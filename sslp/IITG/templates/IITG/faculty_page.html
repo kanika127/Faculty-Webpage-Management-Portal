@@ -1,0 +1,28 @@
+{% extends 'IITG/base_visitor.html' %}
+{% block title %}IITG: Faculty{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <!-- depts -->
+    <div class="row">
+        {% if depts %}
+            {% for dept in depts %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="col-sm-12">
+                        <h4>Department of</h4>
+                    </div>
+                    <div class="thumbnail">
+                        <a href="{% url 'IITG:dept_faculty' 'all' dept.id %}">
+                        <div class="caption">
+                            <h3>{{ dept.Dept_name }}</h3><br>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

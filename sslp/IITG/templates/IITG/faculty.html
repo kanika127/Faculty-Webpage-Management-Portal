@@ -1,0 +1,30 @@
+{% extends 'IITG/base_visitor.html' %}
+{% block title %}IITG: Faculty{% endblock %}
+
+{% block body %}
+<div class="professors-container container-fluid">
+
+    <!-- professors -->
+    <div class="row">
+        {% if professors %}
+            {% for professor in professors %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="col-sm-12">
+                        <h3>{{ professor.user }}</h3>
+                    </div>
+                    <div class="thumbnail">
+                        <a href="{% url 'IITG:professor_website' professor.id %}">
+                            <img src="{{ professor.pro_pic.url }}" class="img-responsive">
+                        </a>
+                        <div class="caption">
+                            <h4>{{ professor.designation }}</h4>
+                            <h5>{{ professor.Department }}</h5>
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

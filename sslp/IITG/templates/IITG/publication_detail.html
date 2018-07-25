@@ -1,0 +1,82 @@
+{% extends 'IITG/base.html' %}
+{% block title %}IITG: {{ professor }}{% endblock %}
+{% block professors_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid publications-container">
+
+    <div class="row">
+
+        <!-- Left professor Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'IITG:publication_detail' professor.id %}">
+                        {% if professor.pro_pic %}
+                            <img src="{{ professor.pro_pic.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h1>{{ professor.user }} </h1>
+                    <h1><small>{{ professor.designation }}</small></h1>
+                    <h2>{{ professor.Department }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right publication Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'IITG:publication_detail' professor.id %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'IITG:create_publication' professor.id %}">Add a new Publication</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Publications</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Publication Name</th>
+                            <th>Detail</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for publication in professor.publication_set.all %}
+                            <tr>
+                                <td>{{ publication.Name }}</td>
+                                <td>{{ publication.Detail }}</td>
+                                <td>{{ publication.Date}}</td>
+                                <td>
+                                    <form action="{% url 'IITG:delete_publication' professor.id publication.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="publication_id" value="{{ publication.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'IITG/base.html' %}
+{% block title %}IITG: {{ professor.user }}: Teachings{% endblock %}
+{% block publications_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid publications-container">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" {% if filter_by =='all' %}class="active"{% endif %}><a href="{% url 'IITG:publications' 'all' %}">View All</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Publication Name</th>
+                                <th>Professor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for publication in publication_list %}
+                                <tr>
+                                    <td>{{ publication.Name }}</td>
+                                    <td>{{ publication.Professor.department }}</td>
+                                    <td>
+                                        <a href="{% url 'IITG:publication_detail' publication.Professor.id %}">
+                                            <img src="{{ publication.Professor.pro_pic.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
+                                        </a>
+                                        <a href="{% url 'IITG:publication_detail' publication.Professor.id %}">{{ publication.Professor.department }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

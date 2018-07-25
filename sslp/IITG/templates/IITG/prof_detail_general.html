@@ -1,0 +1,121 @@
+{% extends 'IITG/base_visitor.html' %}
+{% block title %}IITG: {{ professor.user }}{% endblock %}
+{% block professors_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Left professor Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                        <a href="{% url 'IITG:prof_detail_general' professor.id %}">
+                            {% if professor.pro_pic %}
+                                <img src="{{ professor.pro_pic.url }}" class="img-responsive">
+                            {% else %}
+                                <h3>No image to display</h3>
+                            {% endif %}
+                        </a>
+                    <h2>{{ professor.user }} </h2>
+                    <h2><small>{{ professor.designation }}</small></h2>
+                    <h3>{{ professor.Department }}</h3>
+                    <br>
+                    <h4><small>Phone no. {{ professor.phone_no }}</small></h4>
+                    <h4><small>Room no. {{ professor.room_no }}</small></h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right course Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Education</u></h3>
+                        <br>
+                        {% for education in professor.education_set.all %}
+                           <li>{{ education.degree }} in {{ education.field }} from {{ education.University }},{{ education.Year }}</li>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Research Interests</u></h3>
+                        <br>
+                        {{ professor.Research_Interests }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Biography</u></h3>
+                        <br>
+                        {{ professor.Biography }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Professional Experience</u></h3>
+                        <br>
+                        {% for experience in professor.experience_set.all %}
+                           <li>{{ experience.Detail }}, {{ experience.Institution }}, {{ experience.start_Year }}-{{ experience.end_Year }}</li>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Projects</u></h3>
+                        <br>
+                        {% for project in professor.projects_set.all %}
+                    <li><b>{{ project.Title }}</b>, {{ project.Detail }}, {{ project.start_Year }}-{{ project.end_Year }}</li>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Publications</u></h3>
+                        <br>
+                        {% for publication in professor.publication_set.all %}
+                    <li><b>{{ publication.Name }}</b>, {{ publication.Detail }}, {{ publication.Date }}</li>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Teachings</u></h3>
+                        <br>
+                        {% for course in professor.course_set.all %}
+                            <li>{{ course.name }}({{ course.no }})</li>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Recognitions</u></h3>
+                        <br>
+                        {% for recognition in professor.recognition_set.all %}
+                    <li><b>{{ recognition.Name }}</b>, {{ recognition.Detail }}</li>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><u>Student</u></h3>
+                        <br>
+                        {% for student in professor.student_set.all %}
+                        <li><b>{{ student.Name }}, {{ student.degree }} Student</b><br>
+                            {{ student.Detail }}</li>
+                        {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
